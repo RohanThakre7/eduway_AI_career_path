@@ -15,7 +15,7 @@ const firebaseConfig = {
   projectId: "eduway-a0b92",
   storageBucket: "eduway-a0b92.firebasestorage.app",
   messagingSenderId: "964970158570",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:964970158570:web:YOUR_UNIQUE_APP_ID"
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:964970158570:web:569bafd304db590d21ba93"
 };
 
 // Initialize Firebase
