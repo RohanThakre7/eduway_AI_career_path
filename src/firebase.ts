@@ -10,7 +10,7 @@ import {
 
 // Firebase configuration for Eduway Web App
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "YOUR_API_KEY",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCpSt1L619nJGpglm-6CqD-HQBqkuMwfic",
   authDomain: "eduway-a0b92.firebaseapp.com",
   projectId: "eduway-a0b92",
   storageBucket: "eduway-a0b92.firebasestorage.app",
