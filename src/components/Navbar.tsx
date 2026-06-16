@@ -95,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
     {/* Logo */}
     <div className="flex items-center">
       <img
-        src="/public/assets/logo1.png" // Replace with the actual path to your logo image
+        src="/assets/logo1.png" // Replace with the actual path to your logo image
         alt="EDUWAY Logo"
         className="h-16 w-16"
       />

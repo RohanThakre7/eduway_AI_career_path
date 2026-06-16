@@ -96,7 +96,7 @@ const About: React.FC = () => {
                 
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
-                    src="/public/assets/chara.jpg" 
+                    src="/assets/chara.jpg" 
                     alt="AI Technology" 
                     className="w-3/4 h-auto rounded-2xl shadow-lg"
                   />

@@ -52,7 +52,7 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             style={{
-              backgroundImage: "url(/public/assets/home.jpg)",
+              backgroundImage: "url(/assets/home.jpg)",
               backgroundSize: "cover",
               backgroundPosition: "center",
               height: "600px", // Increased height
