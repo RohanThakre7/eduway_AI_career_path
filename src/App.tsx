@@ -11,6 +11,7 @@ import ProfileSidebar from './components/ProfileSidebar';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -18,8 +19,8 @@ function App() {
 
   return (
     <div className="relative overflow-x-hidden">
-      <Navbar toggleSidebar={toggleSidebar} />
-      <ProfileSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Navbar toggleSidebar={toggleSidebar} user={user} setUser={setUser} />
+      <ProfileSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} user={user} />
       
       <main>
         <Hero />

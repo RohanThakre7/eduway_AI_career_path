@@ -13,13 +13,14 @@ import {
 interface ProfileSidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  user: { name: string; email: string } | null;
 }
 
-const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose }) => {
-  // Mock user data
-  const user = {
-    name: "priya bhadekar",
-    email: "priyabhadekar@gmail.com",
+const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose, user }) => {
+  // Use dynamic user data, falling back to defaults if not available
+  const profileUser = {
+    name: user?.name || "priya bhadekar",
+    email: user?.email || "priyabhadekar@gmail.com",
     progress: 65,
     badges: [
       { name: "Quick Starter", icon: <Award size={18} /> },
@@ -93,8 +94,8 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose }) => {
                   <User size={32} />
                 </div>
                 <div className="ml-4">
-                  <h3 className="font-bold text-lg">{user.name}</h3>
-                  <p className="text-neutral-600 text-sm">{user.email}</p>
+                  <h3 className="font-bold text-lg">{profileUser.name}</h3>
+                  <p className="text-neutral-600 text-sm">{profileUser.email}</p>
                 </div>
               </div>
               
@@ -102,12 +103,12 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose }) => {
               <div className="mt-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium">Profile Completion</span>
-                  <span className="text-sm font-medium">{user.progress}%</span>
+                  <span className="text-sm font-medium">{profileUser.progress}%</span>
                 </div>
                 <div className="w-full bg-neutral-200 rounded-full h-2.5">
                   <div 
                     className="bg-primary-600 h-2.5 rounded-full" 
-                    style={{ width: `${user.progress}%` }}
+                    style={{ width: `${profileUser.progress}%` }}
                   ></div>
                 </div>
               </div>
@@ -120,7 +121,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose }) => {
                 Badges
               </h3>
               <div className="flex flex-wrap gap-2">
-                {user.badges.map((badge, index) => (
+                {profileUser.badges.map((badge, index) => (
                   <div 
                     key={index}
                     className="px-3 py-1.5 bg-primary-50 text-primary-700 rounded-full text-sm flex items-center"
@@ -139,7 +140,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose }) => {
                 Enrolled Courses
               </h3>
               <div className="space-y-4">
-                {user.courses.map((course, index) => (
+                {profileUser.courses.map((course, index) => (
                   <div key={index} className="space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-sm">{course.name}</span>

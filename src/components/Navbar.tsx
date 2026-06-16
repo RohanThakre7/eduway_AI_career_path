@@ -14,14 +14,20 @@ import {
 
 interface NavbarProps {
   toggleSidebar: () => void;
+  user: { name: string; email: string } | null;
+  setUser: (user: { name: string; email: string } | null) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
+const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, user, setUser }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Local form inputs
+  const [usernameInput, setUsernameInput] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +50,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   ];
 
   const handleAuthSuccess = () => {
-    setIsLoggedIn(true);
     toggleSidebar(); // Open profile sidebar after auth
   };
 
@@ -57,31 +62,38 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setUser(null);
   };
 
   const signUpWithEmailAndPassword = () => {
-    alert('Signed up with email and password');
-    setIsLoggedIn(true);
+    const name = usernameInput.trim() || 'New User';
+    const email = emailInput.trim() || 'user@example.com';
+    setUser({ name, email });
+    alert(`Signed up successfully as ${name}!`);
     setIsSignUpModalOpen(false);
+    toggleSidebar();
   };
 
   const signUpWithGoogle = () => {
-    alert('Sign up with Google');
-    setIsLoggedIn(true);
+    setUser({ name: 'Google User', email: 'google.user@gmail.com' });
+    alert('Signed up with Google');
     setIsSignUpModalOpen(false);
+    toggleSidebar();
   };
 
   const signUpWithGitHub = () => {
-    alert('Sign up with GitHub');
-    setIsLoggedIn(true);
+    setUser({ name: 'GitHub User', email: 'github.user@github.com' });
+    alert('Signed up with GitHub');
     setIsSignUpModalOpen(false);
+    toggleSidebar();
   };
 
   const loginWithEmailAndPassword = () => {
-    alert('Logged in with email and password');
-    setIsLoggedIn(true);
+    const name = usernameInput.trim() || 'User';
+    setUser({ name, email: `${name.toLowerCase().replace(/\s+/g, '')}@gmail.com` });
+    alert(`Logged in successfully as ${name}!`);
     setIsLoginModalOpen(false);
+    toggleSidebar();
   };
 
   return (
@@ -116,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
           <span>{link.name}</span>
         </a>
       ))}
-      {!isLoggedIn ? (
+      {!user ? (
         <div className="flex items-center space-x-4"> {/* Added space-x-4 */}
           <button
             onClick={handleSignUp}
@@ -136,7 +148,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
           <User size={20} />
         </button>
       )}
-      {isLoggedIn && (
+      {user && (
         <button
           onClick={handleLogout}
           className="p-2 rounded-full bg-primary-50 text-primary-600 hover:bg-primary-100 transition-colors"
@@ -177,7 +189,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
             <span>{link.name}</span>
           </a>
         ))}
-        {!isLoggedIn && (
+        {!user && (
           <div className="flex flex-col space-y-4"> {/* Added space-y-4 */}
             <button
               onClick={handleSignUp}
@@ -195,7 +207,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
             </button>
           </div>
         )}
-        {isLoggedIn && (
+        {user && (
           <button
             onClick={handleLogout}
             className="flex items-center space-x-2 p-2 rounded-lg hover:bg-primary-50"
@@ -217,16 +229,22 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
               <input
                 type="text"
                 placeholder="Username"
+                value={usernameInput}
+                onChange={(e) => setUsernameInput(e.target.value)}
                 className="w-full p-2 border rounded"
               />
               <input
                 type="email"
                 placeholder="Email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
                 className="w-full p-2 border rounded"
               />
               <input
                 type="password"
                 placeholder="Password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
                 className="w-full p-2 border rounded"
               />
               <button
@@ -272,11 +290,15 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
               <input
                 type="text"
                 placeholder="Username"
+                value={usernameInput}
+                onChange={(e) => setUsernameInput(e.target.value)}
                 className="w-full p-2 border rounded"
               />
               <input
                 type="password"
                 placeholder="Password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
                 className="w-full p-2 border rounded"
               />
               <button
