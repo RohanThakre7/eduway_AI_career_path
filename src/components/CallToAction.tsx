@@ -82,7 +82,7 @@ const CallToAction: React.FC = () => {
                   duration: 2
                 }
               }}
-              onClick={() => window.open("http://localhost:8501", "_blank")}
+              onClick={() => window.open("https://eduway.streamlit.app/", "_blank")}
             >
               <ClipboardList className="mr-2" size={20} />
               Take Survey

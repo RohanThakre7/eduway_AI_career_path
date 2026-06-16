@@ -77,7 +77,7 @@ const Hero: React.FC = () => {
                 }}
                 onClick={() =>
                   window.open(
-                    "http://localhost:8501",
+                    "https://eduway.streamlit.app/",
                     "_blank"
                   )
                 }
