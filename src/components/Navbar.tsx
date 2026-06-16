@@ -11,6 +11,13 @@ import {
   X,
   User,
 } from 'lucide-react';
+import { 
+  auth, 
+  googleProvider, 
+  githubProvider, 
+  signInWithPopup, 
+  signOut 
+} from '../firebase';
 
 interface NavbarProps {
   toggleSidebar: () => void;
@@ -28,6 +35,21 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, user, setUser }) => {
   const [usernameInput, setUsernameInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
+
+  // Keep state in sync with Firebase Auth State Changes
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          name: firebaseUser.displayName || 'EduWay Student',
+          email: firebaseUser.email || 'student@eduway.com'
+        });
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [setUser]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,37 +83,59 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, user, setUser }) => {
     setIsLoginModalOpen(true);
   };
 
-  const handleLogout = () => {
-    setUser(null);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error: any) {
+      alert(`Error signing out: ${error.message}`);
+    }
   };
 
   const signUpWithEmailAndPassword = () => {
     const name = usernameInput.trim() || 'New User';
     const email = emailInput.trim() || 'user@example.com';
     setUser({ name, email });
-    alert(`Signed up successfully as ${name}!`);
+    alert(`Signed up successfully as ${name}! (Simulated local user)`);
     setIsSignUpModalOpen(false);
     toggleSidebar();
   };
 
-  const signUpWithGoogle = () => {
-    setUser({ name: 'Google User', email: 'google.user@gmail.com' });
-    alert('Signed up with Google');
-    setIsSignUpModalOpen(false);
-    toggleSidebar();
+  const signUpWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const firebaseUser = result.user;
+      setUser({
+        name: firebaseUser.displayName || 'Google User',
+        email: firebaseUser.email || 'google.user@gmail.com'
+      });
+      alert(`Successfully signed in with Google as ${firebaseUser.displayName}!`);
+      setIsSignUpModalOpen(false);
+      toggleSidebar();
+    } catch (error: any) {
+      alert(`Google Authentication Failed: ${error.message}`);
+    }
   };
 
-  const signUpWithGitHub = () => {
-    setUser({ name: 'GitHub User', email: 'github.user@github.com' });
-    alert('Signed up with GitHub');
-    setIsSignUpModalOpen(false);
-    toggleSidebar();
+  const signUpWithGitHub = async () => {
+    try {
+      const result = await signInWithPopup(auth, githubProvider);
+      const firebaseUser = result.user;
+      setUser({
+        name: firebaseUser.displayName || 'GitHub User',
+        email: firebaseUser.email || 'github.user@github.com'
+      });
+      alert(`Successfully signed in with GitHub as ${firebaseUser.displayName}!`);
+      setIsSignUpModalOpen(false);
+      toggleSidebar();
+    } catch (error: any) {
+      alert(`GitHub Authentication Failed: ${error.message}`);
+    }
   };
 
   const loginWithEmailAndPassword = () => {
     const name = usernameInput.trim() || 'User';
     setUser({ name, email: `${name.toLowerCase().replace(/\s+/g, '')}@gmail.com` });
-    alert(`Logged in successfully as ${name}!`);
+    alert(`Logged in successfully as ${name}! (Simulated local user)`);
     setIsLoginModalOpen(false);
     toggleSidebar();
   };

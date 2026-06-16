@@ -9,6 +9,7 @@ import {
   LogOut,
   BarChart3
 } from 'lucide-react';
+import { auth, signOut } from '../firebase';
 
 interface ProfileSidebarProps {
   isOpen: boolean;
@@ -167,7 +168,17 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose, user }
                 <HelpCircle className="mr-3 text-primary-600" size={20} />
                 <span>Get Help</span>
               </button>
-              <button className="w-full flex items-center p-3 rounded-lg hover:bg-neutral-100 transition-colors text-red-600">
+              <button 
+                onClick={async () => {
+                  try {
+                    await signOut(auth);
+                    onClose();
+                  } catch (e: any) {
+                    alert(`Error logging out: ${e.message}`);
+                  }
+                }}
+                className="w-full flex items-center p-3 rounded-lg hover:bg-neutral-100 transition-colors text-red-600"
+              >
                 <LogOut className="mr-3" size={20} />
                 <span>Log Out</span>
               </button>
